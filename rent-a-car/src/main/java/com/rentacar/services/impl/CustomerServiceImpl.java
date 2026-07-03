@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,6 +38,33 @@ public class CustomerServiceImpl implements ICustomerService {
         return dbcustomer;
 
 
+    }
+
+    @Override
+    public List<Customer> getAllCustomer() {
+
+        List<Customer> all = customerRepository.findAll();
+
+        return all;
+    }
+
+    @Override
+    public Customer deleteByIdCustomer(Long id) {
+        if(id == null){
+            return null;
+        }
+        Customer deletedCustomer = getByIdCustomer(id);
+        customerRepository.deleteById(id);
+        return deletedCustomer;
+    }
+
+    @Override
+    public Customer updateByIdCustomer(Customer customer) {
+
+        customerRepository.delete(customer);
+        Customer updatedCustomer = saveCustomer(customer);
+
+        return updatedCustomer;
     }
 
 
